@@ -1,29 +1,22 @@
 pipeline {
     agent any
     environment {
-    PATH = "/opt/apache-maven-3.9.2/bin:${PATH}"
-     }
+        PATH = "/opt/apache-maven-3.9.5/bin:${PATH}"
+    }
     stages {
-        stage('Checkout') {
+        stage('Clone Code') {
             steps {
-                // Checkout the source code from your version control system
-                // For example, using Git:
-                git 'https://github.com/architectdevops7/java-application.git'
+                git 'https://github.com/architectdevops7/jenkins-pipelines.git'
             }
         }
-        
-        stage('Build') {
+        stage('Build Package') {
             steps {
-                // Build the project using Maven
                 sh 'mvn clean package'
             }
         }
-        stage('Deployment') {
+        stage('Deploy Package') {
             steps {
-                // Trigger deployment from Nexus repository to Tomcat server
-                // Replace `your-artifact` and `your-version` with the actual artifact name and version
-                // deploy adapters: [tomcat9(credentialsId: '3384cd64-1ec0-4af6-96fa-8f5d19f416ab', path: '', url: 'http://35.160.12.251:8080/')], contextPath: null, war: '**/*.war'
-                deploy adapters: [tomcat9(credentialsId: 'tomcat-user', path: '', url: 'http://15.206.205.157:8080/')], contextPath: null, war: '**/*.war'
+                deploy adapters: [tomcat9(credentialsId: 'tomcat-user', path: '', url: 'http://54.85.43.193:8080/')], contextPath: null, war: '**/*.war'
             }
         }
     }
